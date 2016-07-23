@@ -110,14 +110,14 @@ build_im_server() {
 
 run_im_server() {
 	cd $INSTALL_DIR/$IM_SERVER
-	./restart.sh $LOGIN_SERVER
+	./restart.sh $DB_PROXY_SERVER
 	./restart.sh $ROUTE_SERVER
-	./restart.sh $MSG_SERVER
 	./restart.sh $FILE_SERVER
 	./restart.sh $MSFS_SERVER
+	./restart.sh $LOGIN_SERVER
+	./restart.sh $MSG_SERVER
 	./restart.sh $HTTP_MSG_SERVER
 	./restart.sh $PUSH_SERVER
-	./restart.sh $DB_PROXY_SERVER
 }
 
 print_help() {
