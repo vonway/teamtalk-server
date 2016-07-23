@@ -46,6 +46,9 @@ case $1 in
 	file_server)
 		restart $1
 		;;
+	msfs)
+		restart $1
+		;;
   push_server)
     restart $1
     ;;
