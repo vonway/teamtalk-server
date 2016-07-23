@@ -106,7 +106,7 @@ build_redis() {
 
 	tar xzf $REDIS.tar.gz
 	cd $REDIS
-	$MAKE
+	$MAKE MALLOC=libc
 	if [ $? -eq 0 ]; then
 		echo "make redis successed"
 	else
