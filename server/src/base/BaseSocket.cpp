@@ -40,7 +40,14 @@ CBaseSocket::~CBaseSocket()
 {
 	//log("CBaseSocket::~CBaseSocket, socket=%d\n", m_socket);
 }
-
+/*==>
+ *
+ *	bind and listen to ip:port
+ *	setup callback func and args, status is listenning
+ *	add this baseSocket to global map
+ *	add event for socket to read and excep
+ *
+ */
 int CBaseSocket::Listen(const char* server_ip, uint16_t port, callback_t callback, void* callback_data)
 {
 	m_local_ip = server_ip;
@@ -85,6 +92,14 @@ int CBaseSocket::Listen(const char* server_ip, uint16_t port, callback_t callbac
 	return NETLIB_OK;
 }
 
+/*==>
+ *	
+ *	connect to server ip:port
+ *	set callback and args , and set status to connecting
+ *	add this baseSocket to global map
+ *	add event for this socket to all
+ *
+ */
 net_handle_t CBaseSocket::Connect(const char* server_ip, uint16_t port, callback_t callback, void* callback_data)
 {
 	log("CBaseSocket::Connect, server_ip=%s, port=%d", server_ip, port);

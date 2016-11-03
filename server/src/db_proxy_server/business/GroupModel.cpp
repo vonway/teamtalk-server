@@ -272,6 +272,8 @@ bool CGroupModel::insertNewGroup(uint32_t nUserId, const string& strGroupName, c
             uint32_t nStatus = 0;
             uint32_t nVersion = 1;
             uint32_t nLastChat = 0;
+	    // user cnt will update in insert group member
+	    nMemberCnt = 0;
             pStmt->SetParam(index++, strGroupName);
             pStmt->SetParam(index++, strGroupAvatar);
             pStmt->SetParam(index++, nUserId);

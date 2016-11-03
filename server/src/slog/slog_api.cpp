@@ -15,7 +15,7 @@
 using namespace log4cxx;
 
 #define MAX_LOG_LENGTH   1024 * 10
-
+//==> wrapper class for format... va_args
 class CSLogObject
 {
 public:
@@ -29,7 +29,7 @@ public:
     virtual void Error(const char* loginfo) {}
     virtual void Fatal(const char* loginfo) {}
 };
-
+//==> wrapper class for log4cxx
 class CLog4CXX : public CSLogObject
 {
 public:

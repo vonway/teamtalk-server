@@ -1,4 +1,5 @@
 .DS_Store*
+tags
 
 auto_setup/im_server/dump.rdb
 auto_setup/im_server/im-server-1/

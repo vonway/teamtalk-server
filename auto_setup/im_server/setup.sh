@@ -140,6 +140,10 @@ case $1 in
 		build_im_server
 		run_im_server
 		;;
+	run)
+		print_hello $1
+		run_im_server
+		;;
 	*)
 		print_help
 		;;

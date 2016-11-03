@@ -25,7 +25,7 @@ SrcDir= .
 #头文件目录
 IncDir= . ../base ../base/jsoncpp ../base/pb/protocol ../base/pb
 #连接库目录
-LibDir= ../base/ ../base/pb/lib/mac/ ../base/slog/lib/
+LibDir= ./ ../ ../base/ ../base/pb/lib/mac/ ../base/slog/lib/
 
 SRCS=$(foreach dir,$(SrcDir),$(wildcard $(dir)/*.cpp))
 INCS=$(foreach dir,$(IncDir),$(addprefix -I,$(dir)))

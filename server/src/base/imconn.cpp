@@ -23,7 +23,7 @@ static CImConn* FindImConn(ConnMap_t* imconn_map, net_handle_t handle)
 
 	return pConn;
 }
-//--> for given msg, exec OnXxx() of imconn found by handle
+//--> for given msg, exec OnXxx() read/write/confirm/close of imconn found by handle
 void imconn_callback(void* callback_data, uint8_t msg, uint32_t handle, void* pParam)
 {
 	NOTUSED_ARG(handle);
@@ -123,6 +123,7 @@ int CImConn::Send(void* data, int len)
 //--> recv from socket and put into in_buf, read pdu from buf and handle it in handlePdu
 void CImConn::OnRead()
 {
+	//--> read all data to m_in_buf
 	for (;;)
 	{
 		uint32_t free_buf_len = m_in_buf.GetAllocSize() - m_in_buf.GetWriteOffset();
@@ -166,9 +167,10 @@ void CImConn::OnRead()
 //--> if busy, write out_buf's data to socket
 void CImConn::OnWrite()
 {
+	//--> not busy which mean we not have data to write to
 	if (!m_busy)
 		return;
-
+	//--> busy mean have data to write to
 	while (m_out_buf.GetWriteOffset() > 0) {
 		int send_size = m_out_buf.GetWriteOffset();
 		if (send_size > NETLIB_MAX_SOCKET_BUF_SIZE) {
