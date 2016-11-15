@@ -79,21 +79,9 @@ print_help() {
 
 case $1 in
 	clean)
-		echo "clean all build..."
 		clean
 		;;
-	version)
-		if [ $# != 2 ]; then 
-			echo $#
-			print_help
-			exit
-		fi
-
-		echo $2
-		echo "build..."
-		build $2
-		;;
 	*)
-		print_help
+		build $2
 		;;
 esac

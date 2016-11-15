@@ -43,21 +43,21 @@ check_os() {
 }
 
 build_web(){
-	if [ -d $PHP_WEB ]; then
-		echo "$PHP_WEB has existed."
-	else
-		unzip $PHP_WEB.zip
-		if [ $? -eq 0 ]; then
-			echo "unzip $PHP_WEB successed."
-		else
-			echo "Error: unzip $PHP_WEB failed."
-		return 1
-		fi
-	fi
+	#if [ -d $PHP_WEB ]; then
+#		echo "$PHP_WEB has existed."
+#	else
+#		unzip $PHP_WEB.zip
+#		if [ $? -eq 0 ]; then
+#			echo "unzip $PHP_WEB successed."
+#		else
+#			echo "Error: unzip $PHP_WEB failed."
+#		return 1
+#		fi
+#	fi
 
 	set -x
 	mkdir -p $PHP_WEB_SETUP_PATH
-	cp -r $PHP_WEB/ $PHP_WEB_SETUP_PATH
+	cp -r ../../$PHP_WEB/ $PHP_WEB_SETUP_PATH
 	cp ./conf/$PHP_DB_CONF $PHP_DB_CONF_PATH/
 	cp ./conf/$PHP_MSFS_CONF $PHP_DB_CONF_PATH/
 	set +x

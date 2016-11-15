@@ -18,11 +18,6 @@ build() {
     yum -y install curl-devel
     yum -y install mariadb-devel
 
-	echo "#ifndef __VERSION_H__" > base/version.h
-	echo "#define __VERSION_H__" >> base/version.h
-	echo "#define VERSION \"$1\"" >> base/version.h
-	echo "#endif" >> base/version.h
-
 # hiredis
     cd hiredis
     unzip $HIREDIS.zip
@@ -66,34 +61,6 @@ build() {
 
 }
 
-clean() {
-	echo " cleaning ..."
-}
+check_user;
+build;
 
-print_help() {
-	echo "Usage: "
-	echo "  $0 clean --- clean all build"
-	echo "  $0 version version_str --- build a version"
-}
-
-case $1 in
-	clean)
-		echo "clean all build..."
-		clean
-		;;
-	version)
-		if [ $# != 2 ]; then 
-			echo $#
-			print_help
-			exit
-		fi
-
-		echo $2
-		echo "build..."
-		build $2
-		check_user		
-		;;
-	*)
-		print_help
-		;;
-esac

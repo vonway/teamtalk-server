@@ -5,12 +5,12 @@ tags
 *.a
 **/build/
 *dump.rdb
+*php.zip
 
 server/src/protobuf/
 !server/src/protobuf/protobuf-2.6.1.tar.gz
 
-server/run/
-!server/run/setip.sh
+server/run
 !server/run/startall.sh
 !server/run/restart.sh
 !server/run/monitor.sh

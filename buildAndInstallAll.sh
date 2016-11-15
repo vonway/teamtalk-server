@@ -3,52 +3,58 @@
 cd server/src
 
 # pre-env-setup
-./build-new.sh
+./pre-env-setup.sh
 
 # build servers
 mkdir build
 cd build
 cmake ..
 make
+cd ../
+./build.sh
 
 # make install servers
 
-cd ../../
-cd auto_setup
+cd ../../../auto_setup
 # setup env and im_web
 cd redis
-./setup install
+./setup.sh install
 
 cd ../nginx_php/nginx
-./setup install
-
-yum -y install php php-fpm php-mysql
+./setup.sh install
 cd ../../
 
-cd mariadb
-./setup install
+yum -y install php php-fpm php-mysql
 
+service php-fpm start
+
+cd mariadb
+./setup.sh install
 cd ../..
-zip -r php.zip php
-cp php.zip auto_setup/im_web
+
+./setip.sh
+
+#zip -r php.zip php
+#cp php.zip auto_setup/im_web
 cd auto_setup/im_web
 ./setup install
-
-
 cd ../..
 
 systemctl stop firewalld.service
 setenforce 0
 
-
 # start servers
 
-cd ..
-./build.sh
 
-cd ../run
+cd server/run
 ./startall.sh
 
+
+ps -ef | grep redis
+ps -ef | grep php
+ps -ef | grep mysql
+ps -ef | grep server
+ps -ef | grep msfs
 
 
 
