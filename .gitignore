@@ -25,3 +25,4 @@ server/src/log4cxx/share/
 server/src/slog/lib/
 server/src/slog/include/
 server/src/base/pb/google/
+auto_setup/redis/redis-2.8.19/

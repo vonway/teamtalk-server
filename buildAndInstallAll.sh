@@ -1,5 +1,12 @@
 #!/bin/bash
+check_user() {
+    if [ $(id -u) != "0" ]; then
+        echo "Error: You must be root to run this script, please use root to install im"
+        exit 1
+    fi
+}
 
+check_user;
 cd server/src
 
 # pre-env-setup
@@ -15,20 +22,20 @@ cd ../
 
 # make install servers
 
-cd ../../../auto_setup
+cd ../../auto_setup
 # setup env and im_web
 cd redis
 ./setup.sh install
 
 cd ../nginx_php/nginx
 ./setup.sh install
-cd ../../
+service nginx start
+cd ../../mariadb
 
 yum -y install php php-fpm php-mysql
 
 service php-fpm start
 
-cd mariadb
 ./setup.sh install
 cd ../..
 
@@ -37,7 +44,7 @@ cd ../..
 #zip -r php.zip php
 #cp php.zip auto_setup/im_web
 cd auto_setup/im_web
-./setup install
+./setup.sh install
 cd ../..
 
 systemctl stop firewalld.service
