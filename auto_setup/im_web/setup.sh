@@ -4,7 +4,7 @@
 # date: 09/04/2014
 
 # setup web
-PHP_WEB=tt
+PHP_WEB=php
 PHP_WEB_SETUP_PATH=/var/www/html
 PHP_DB_CONF=database.php
 PHP_MSFS_CONF=config.php

@@ -1,11 +1,13 @@
 cmake_minimum_required(VERSION 2.6)
 PROJECT(db_proxy_server)
 
+cmake_policy(SET CMP0015 NEW)
+
 AUX_SOURCE_DIRECTORY(./ SRC_LIST)
 AUX_SOURCE_DIRECTORY(./business SRC_LIST)
 
 #SET(LIBRARY_OUTPUT_PATH ./)
-SET(EXECUTABLE_OUTPUT_PATH  ./)
+SET(EXECUTABLE_OUTPUT_PATH  ../bin/)
 if(APPLE)
     SET(PB_LIB_DIR ../base/pb/lib/mac)
 elseif(UNIX)
@@ -21,7 +23,7 @@ ADD_DEFINITIONS( -g -W -Wall -D_REENTRANT -D_FILE_OFFSET_BITS=64 -DAC_HAS_INFO
 
 INCLUDE_DIRECTORIES(./ ./businiess ../base ../base/jsoncpp ../base/pb/protocol
 ../base/pb/ ${MYSQL_INCLUDE_DIR})
-LINK_DIRECTORIES(./ ../base ${PB_LIB_DIR} ${MYSQL_LIB} ../base/slog/lib)
+LINK_DIRECTORIES(./ ../base ${PB_LIB_DIR} ${MYSQL_LIB} ../slog/lib)
 
 #ADD_XXXX必须在TARGET_LINK_LIBRARIES前面，否则会报错
 #ADD_LIBRARY(${PROJECTNAME} SHARED/STATIC ${SRC_LIST})
