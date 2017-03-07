@@ -288,13 +288,13 @@ void CHttpConn::_HandleMsgServRequest(string& url, string& post_data)
         value["msg"] = "";
         if(pIpParser->isTelcome(GetPeerIP()))
         {
-	    /*
             value["priorIP"] = string(it_min_conn->second->ip_addr1);
             value["backupIP"] = string(it_min_conn->second->ip_addr2);
-	    */
+	    /*
 	    // for debug 
             value["priorIP"] = string("10.72.17.222");
             value["backupIP"] = string("10.72.17.222");
+	    */
             value["msfsPrior"] = strMsfsUrl;
             value["msfsBackup"] = strMsfsUrl;
         }

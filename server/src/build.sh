@@ -1,6 +1,13 @@
 #!/bin/bash
 
 build() {
+	if [ ! -d build ]; then
+		mkdir build
+	fi
+	cd build
+	cmake ..
+	make
+	cd ..
 
     mkdir -p ../run/login_server
     mkdir -p ../run/route_server
@@ -51,24 +58,8 @@ build() {
 }
 
 clean() {
-	cd base
+	cd build
 	make clean
-	cd ../login_server
-	make clean
-	cd ../route_server
-	make clean
-	cd ../msg_server
-	make clean
-	cd ../http_msg_server
-    make clean
-	cd ../file_server
-    make clean
-    cd ../push_server
-    make clean
-	cd ../db_proxy_server
-	make clean
-    cd ../push_server
-    make clean
 }
 
 print_help() {
@@ -82,6 +73,6 @@ case $1 in
 		clean
 		;;
 	*)
-		build $2
+		build 
 		;;
 esac

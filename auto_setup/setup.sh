@@ -7,13 +7,9 @@
 
 REDIS=redis
 MYSQL=mariadb
-NGINX_PHP=nginx_php
 NGINX=nginx
-PHP=php
 
 IM_WEB=im_web
-IM_SERVER=im_server
-IM_DB_PROXY=im_db_proxy
 CUR_DIR=
 
 SETUP_PROGRESS=setup.progress
@@ -54,16 +50,6 @@ check_os() {
 		echo "Error: OS must be CentOS 64bit to run this script."
 		exit 1
 	fi
-}
-
-print_hello() {
-	echo "========================================================================="
-	echo "TeamTalk V1.0 for CentOS Linux Server, Written by Luoning"
-	echo "========================================================================="
-	echo "A tool to auto-compile & install TeamTalk on Linux "
-	echo ""
-	echo "For more information please visit https://github.com/mogutt/TTAutoDeploy/"
-	echo "========================================================================="
 }
 
 get_cur_dir() {
@@ -225,20 +211,7 @@ build_mariadb() {
 }
 
 check_nginx() {
-	cd $NGINX_PHP
 	cd $NGINX
-	chmod +x setup.sh
-	./setup.sh check
-	if [ $? -eq 0 ]; then
-		cd $CUR_DIR
-	else
-		return 1
-	fi
-}
-
-check_php() {
-	cd $NGINX_PHP
-	cd $PHP
 	chmod +x setup.sh
 	./setup.sh check
 	if [ $? -eq 0 ]; then
@@ -249,29 +222,12 @@ check_php() {
 }
 
 build_nginx() {
-	cd $NGINX_PHP
-
 	cd $NGINX
 	chmod +x setup.sh
 	setup_begin $NGINX
 	./setup.sh install
 	if [ $? -eq 0 ]; then
 		setup_success $NGINX
-		cd $CUR_DIR
-	else
-		return 1
-	fi
-}
-
-build_php() {
-	cd $NGINX_PHP
-
-	cd $PHP
-	chmod +x setup.sh
-	setup_begin $PHP
-	./setup.sh install
-	if [ $? -eq 0 ]; then
-		setup_success $PHP
 		cd $CUR_DIR
 	else
 		return 1
@@ -290,36 +246,13 @@ check_im_web() {
 }
 
 build_im_web() {
+	yum -y install php php-fpm php-mysql
 	cd $IM_WEB
 	chmod +x setup.sh
 	setup_begin $IM_WEB
 	./setup.sh install
 	if [ $? -eq 0 ]; then
 		setup_success $IM_WEB
-		cd $CUR_DIR
-	else
-		return 1
-	fi
-}
-
-check_im_server() {
-	cd $IM_SERVER
-	chmod +x setup.sh
-	./setup.sh check
-	if [ $? -eq 0 ]; then
-		cd $CUR_DIR
-	else
-		return 1
-	fi
-}
-
-build_im_server() {
-	cd $IM_SERVER
-	chmod +x setup.sh
-	setup_begin $IM_SERVER
-	./setup.sh install
-	if [ $? -eq 0 ]; then
-		setup_success $IM_SERVER
 		cd $CUR_DIR
 	else
 		return 1
@@ -384,8 +317,19 @@ check_all() {
 	#redis
 	check_module $REDIS $REDIS_SETUP_BEGIN $REDIS_SETUP_SUCCESS
 	if [ $? -eq 1 ]; then
+		return 1
+	fi
+	#nginx
+	check_module $NGINX $NGINX_SETUP_BEGIN $NGINX_SETUP_SUCCESS
+	if [ $? -eq 1 ]; then
 		exit 1
 	fi
+	
+	#im_web
+    check_module $IM_WEB $IM_WEB_SETUP_BEGIN $IM_WEB_SETUP_SUCCESS
+    if [ $? -eq 1 ]; then
+    	exit 1
+    fi
 	
 	#mysql
 	check_module $MYSQL $MYSQL_SETUP_BEGIN $MYSQL_SETUP_SUCCESS
@@ -393,30 +337,7 @@ check_all() {
 		exit 1
 	fi
 
-	#nginx
-	check_module $NGINX $NGINX_SETUP_BEGIN $NGINX_SETUP_SUCCESS
-	if [ $? -eq 1 ]; then
-		exit 1
-	fi
-	
-	#php
-	check_module $PHP $PHP_SETUP_BEGIN $PHP_SETUP_SUCCESS
-	if [ $? -eq 1 ]; then
-		exit 1
-	fi
 
-	#im_web
-    check_module $IM_WEB $IM_WEB_SETUP_BEGIN $IM_WEB_SETUP_SUCCESS
-    if [ $? -eq 1 ]; then
-    	exit 1
-    fi
-
-	#im_server
-    check_module $IM_SERVER $IM_SERVER_SETUP_BEGIN $IM_SERVER_SETUP_SUCCESS
-    if [ $? -eq 1 ]; then
-    	exit 1
-    fi
-	
 	echo "Check TeamTalk successed, and you can install TeamTalk now."
 }
 
@@ -465,20 +386,8 @@ build_all() {
 	fi
 
 
-	#mysql
-	build_module $MYSQL $MYSQL_SETUP_BEGIN $MYSQL_SETUP_SUCCESS
-	if [ $? -eq 1 ]; then
-		exit 1
-	fi
-
 	#nginx
 	build_module $NGINX $NGINX_SETUP_BEGIN $NGINX_SETUP_SUCCESS
-	if [ $? -eq 1 ]; then
-		exit 1
-	fi
-
-	#php
-	build_module $PHP $PHP_SETUP_BEGIN $PHP_SETUP_SUCCESS
 	if [ $? -eq 1 ]; then
 		exit 1
 	fi
@@ -489,11 +398,12 @@ build_all() {
     	exit 1
     fi
 
-	#im_server
-    build_module $IM_SERVER $IM_SERVER_SETUP_BEGIN $IM_SERVER_SETUP_SUCCESS
-    if [ $? -eq 1 ]; then
-    	exit 1
-    fi
+	#mysql
+	build_module $MYSQL $MYSQL_SETUP_BEGIN $MYSQL_SETUP_SUCCESS
+	if [ $? -eq 1 ]; then
+		exit 1
+	fi
+
 }
 
 print_help() {
@@ -502,21 +412,29 @@ print_help() {
 	echo "  $0 install --- check & run scripts to install"
 }
 
+start_services(){
+	service redis start
+	service mariadb start
+	service nginx start
+	service php-fpm start
+}
+
 case $1 in
 	check)
-		print_hello
 		check_user
 		check_os
 		get_cur_dir
 		check_all
 		;;
 	install)
-		print_hello
+		# start services if can , so service will not be installed again instead just show some error msg of service is running 
+		start_services
 		check_user
 		check_os
 		get_cur_dir
 		check_all
 		build_all
+		start_services
 		;;
 	*)
 		print_help

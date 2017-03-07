@@ -27,12 +27,6 @@ MYSQL_PASSWORD=12345
 
 CENTOS_VERSION=6
 
-print_hello(){
-	echo "==========================================="
-	echo "$1 mysql for TeamTalk"
-	echo "==========================================="
-}
-
 check_user() {
 	if [ $(id -u) != "0" ]; then
     	echo "Error: You must be root to run this script, please use root to install mysql"
@@ -66,7 +60,7 @@ check_run() {
 	ps -ef | grep -v 'grep' | grep mysqld
 	if [ $? -eq 0 ]; then
 		echo "Error: mysql is running."
-		exit 1
+		exit 0
 	fi
 }
 
@@ -301,13 +295,11 @@ print_help() {
 
 case $1 in
 	check)
-		print_hello $1
 		check_user
 		check_os
 		check_run
 		;;
 	install)
-		print_hello $1
 		check_user
 		check_os
 		check_run

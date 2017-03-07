@@ -12,12 +12,6 @@ PHP_DB_CONF_PATH=$PHP_WEB_SETUP_PATH/$PHP_WEB/application/config
 PHP_NGINX_CONF=im.com.conf
 PHP_NGINX_CONF_PATH=/etc/nginx/conf.d
 
-print_hello(){
-	echo "==========================================="
-	echo "$1 im web for TeamTalk"
-	echo "==========================================="
-}
-
 check_user() {
 	if [ $(id -u) != "0" ]; then
     	echo "Error: You must be root to run this script, please use root to install im_web"
@@ -58,6 +52,7 @@ build_web(){
 	set -x
 	mkdir -p $PHP_WEB_SETUP_PATH
 	cp -r ../../$PHP_WEB/ $PHP_WEB_SETUP_PATH
+	chmod 777 $PHP_WEB_SETUP_PATH/$PHP_WEB/download
 	cp ./conf/$PHP_DB_CONF $PHP_DB_CONF_PATH/
 	cp ./conf/$PHP_MSFS_CONF $PHP_DB_CONF_PATH/
 	set +x
@@ -83,12 +78,10 @@ print_help() {
 
 case $1 in
 	check)
-		print_hello $1
 		check_user
 		check_os
 		;;
 	install)
-		print_hello $1
 		check_user
 		check_os
 		build_web

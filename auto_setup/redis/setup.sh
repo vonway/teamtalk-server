@@ -12,12 +12,6 @@ REDIS_CONF=redis.conf
 REDIS_SERVER_PATH=/usr/local/bin
 REDIS_SERVER=redis-server
 
-print_hello(){
-	echo "==========================================="
-	echo "$1 redis for TeamTalk"
-	echo "==========================================="
-}
-
 check_user() {
 	if [ $(id -u) != "0" ]; then
     	echo "Error: You must be root to run this script, please use root to install redis"
@@ -46,7 +40,7 @@ check_run() {
 	ps -ef | grep -v 'grep' | grep redis-server
 	if [ $? -eq 0 ]; then
 		echo "Error: redis is running."
-		exit 1
+		exit 0
 	fi
 }
 
@@ -138,7 +132,7 @@ build_all() {
 		echo "run redis successed."
 	else
 		echo "Error: run redis failed."
-		exit 1
+	#	exit 1
 	fi
 }
 
@@ -150,13 +144,11 @@ print_help() {
 
 case $1 in
 	check)
-		print_hello $1
 		check_user
 		check_os
 		check_run
 		;;
 	install)
-		print_hello $1
 		check_user
 		check_os
 		check_run

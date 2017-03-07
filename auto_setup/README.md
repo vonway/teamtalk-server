@@ -1,13 +1,13 @@
 #安装说明:
-	TeamTalk整套服务提供模块部署脚本和一键部署方案，主要模块有NGINX,PHP,MARIADB(MYSQL),REDIS,IM_WEB,IM_SERVER,其中IM_WEB,IM_SERVER为自主开发模块,其余均为开源解决方案,各个模块	需要手动改动的地方如下:
+	TeamTalk整套服务提供模块部署脚本和一键部署方案，主要模块有NGINX,PHP,MARIADB(MYSQL),REDIS,IM_WEB,其中IM_WEB为自主开发模块,其余均为开源解决方案,各个模块	需要手动改动的地方如下:
 ######NGINX: 
 	无需改动
 
 ######PHP: 
-	在conf目录下包含两个配置文件 php-fpm.conf php.ini, 可以自行进行优化配置, 也可以选择不改动这两个文件
+	无需改动
 
 ######MARIADB(MYSQL): 
-	在安装脚本setup.sh中默认设置了mysql root用户的初始密码为12345,在安装mariadb的过程中,会提示输入密码,如果想用自定义密码, 需要修改“MYSQL_PASSWORD=12345”对密码进行设置保持一致，一旦对密码进行更改,需要同时在IM_WEB与IM_SERVER中进行更改,详见IM_WEB和IM_SERVER配置说明。
+	在安装脚本setup.sh中默认设置了mysql root用户的初始密码为12345,在安装mariadb的过程中,会提示输入密码,如果想用自定义密码, 需要修改“MYSQL_PASSWORD=12345”对密码进行设置保持一致，一旦对密码进行更改,需要同时在IM_WEB与server conf中进行更改,详见IM_WEB和server配置说明。
 	如果使用的是已存在的mariadb(mysql),可以直接使用"mysql -u $USER -p$PASSWORD < ttopen.sql"进行库与表的创建。
 	
 
@@ -22,7 +22,7 @@
 	如果使用的是现有的nginx+php环境,可以修改setup.sh中的 PHP_WEB_SETUP_PATH为nginx放置web代码的路径,
 	并且将PHP_NGINX_CONF_PATH修改为nginx配置文件的路径然后执行setup.sh脚本即可
 
-######IM_SERVER: 
+######SERVER: 
 	IM_SERVER下共有8种服务器,所以也需要对这些服务器进行分别配置
 
 	1.LOGIN_SERVER: 
@@ -71,6 +71,6 @@
 	TeamTalk的各模块支持安装到不同的服务器上,所以部署可以根据自己的需要进行模块安装,主要修改的地方即为上述各个模块中的IP地址设置。根据自己的网络拓扑在conf文件夹下的各个配置文件中预先设置正确的IP地址,然后执行模块内的"setup install"即可
 
 
-###IM_SERVER与IM_DB_PROXY架构图如下:
+###SERVER与IM_DB_PROXY架构图如下:
 
 ![](https://raw.githubusercontent.com/mogutt/TTServer/master/docs/pics/server.jpg)

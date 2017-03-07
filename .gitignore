@@ -26,3 +26,5 @@ server/src/slog/lib/
 server/src/slog/include/
 server/src/base/pb/google/
 auto_setup/redis/redis-2.8.19/
+auto_setup/nginx/
+auto_setup/setup.progress
