@@ -1,6 +1,9 @@
+
+[中文版本](./README_CN.md)
+
 # TeamTalk
 	TeamTalk is a solution for enterprise IM
-	
+	fork from https://github.com/meili/TeamTalk
 	see documents in doc dir for more infomations.
 	
 	
@@ -9,23 +12,24 @@
 		
 		* qq group:523380672
 
-# setup 
+# install 
 	
-	OS:
+install centos7-dvd-1511.iso using server-with-gui,
+mariadb development and development tools. 
 
-	install centos7-dvd-1511.iso using 
+login with root	
 
-	server-with-gui, mariadb development and development tools.
-
-	and login with root	
-
-	su
-	
-	git clone xxx
-
+	su	
+	git clone https://github.com/vonway/teamtalk-server.git
 	cd teamtalk-server
+	./makerun.sh
 
-	./buildAndInstallAll.sh
+#client
+	
+	ios: https://github.com/vonway/teamtalk-ios.git
+	mac: https://github.com/vonway/teamtalk-mac.git
+	android: https://github.com/vonway/teamtalk-android.git
+	win: https://github.com/vonway/teamtalk-win.git
 
 #TODO
 
