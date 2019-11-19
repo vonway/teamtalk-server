@@ -34,5 +34,6 @@ login with root
 #TODO
 
 	- clean server code
+	- port to ubuntu os
 	
 	
